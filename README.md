@@ -4,33 +4,35 @@
 
 </p>
 
+[英文](README_EN.md)
+
 [中文](README_CN.md)
 
-## Preface
+## はじめに
 
-> Debugging has a rather bad reputation. I mean, if the developer had a complete understanding of the program, there wouldn’t be any bugs and they wouldn’t be debugging in the first place, right?<br/>Don’t think like that.<br/>There are always going to be bugs in your software — or any software, for that matter. No amount of test coverage imposed by your product manager is going to fix that. In fact, viewing debugging as just a process of fixing something that’s broken is actually a poisonous way of thinking that will mentally hinder your analytical abilities.<br/>Instead, you should view debugging **as simply a process to better understand a program**. It’s a subtle difference, but if you truly believe it, any previous drudgery of debugging simply disappears.
+> デバッグには悪いイメージがあります。<br/>そんなことを考えてはいけません。<br/>ソフトウェアには常にバグが存在しますが、それはどんなソフトウェアでも同じです。<br/> <br/>そのようなことはありません。<br/>代わりに、あなたはデバッグを**プログラムをよりよく理解するためのプロセス**として捉えるべきです。<br>その代わりに、デバッグはプログラムを理解するためのプロセスであると考えるべきです。
 
-Since Grace Hopper, the founder of the **Cobol** language, discovered the world's first Bug in a relay computer, the generation of Bug in software development has never stopped. As the preface to the book of《Advanced Apple Debugging & Reverse Engineering》tells us: Developers don't want to think that if there is a good understanding of how software works, there will be no Bug. Therefore, debugging is almost an inevitable phase in the software development life cycle.
+Cobol言語の創始者であるグレース・ホッパーがリレーコンピュータに世界初のBugを発見して以来、ソフトウェア開発におけるBugの発生は止まるところを知らない。この本の序文にあるように、《Advanced Apple Debugging & Reverse Engineering》はこう語っている。開発者は、ソフトウェアがどのように動作するかをよく理解していれば、Bugが発生しないとは思いたくない。そのため、ソフトウェア開発のライフサイクルにおいて、デバッグは避けては通れない段階なのです。
 
-## Debugging Overview
+## デバッグの概要
 
-If you ask an inexperienced programmer
- about how to define debugging, he might say "Debugging is something you do to find a solution for your software problem". He is right, but that's just a tiny part of a real debugging.
+経験の浅いプログラマーに、デバッグの定義を尋ねると
+ デバッグの定義を尋ねると、「デバッグとは、ソフトウェアの問題の解決策を見つけるために行うものです」と答えるかもしれません。その通りですが、それは本当のデバッグのほんの一部に過ぎません。
 
-Here are the steps of a real debugging:
-1. Find out why it's behaving unexpectedly
-2. Resolve it
-3. Try to make sure no new issue is involved
-4. Improve the quality of your code, include readability, architecture, test coverage and performance etc.
-5. Make sure that the same problem does not occur anywhere else
+本当の意味でのデバッグとは、次のようなものです。
+1. なぜ予期せぬ動作をしているのかを知る。
+2. それを解決する
+3. 新たな問題が発生していないことを確認する
+4. 読みやすさ、アーキテクチャ、テストカバレッジ、パフォーマンスなど、コードの品質を向上させる。
+5. 同じ問題が他の場所で発生しないようにすること
 
-Among above steps, the most important step is the first step: find out the problem. Apparently, it's a prerequisite of other steps.
+上記のステップの中で、最も重要なステップは、最初のステップである「問題の発見」です。どうやら、それは他のステップの前提条件のようです。
 
-Research shows the time experienced programmers spend on debugging to locate the same set of defects is about one twentieth of inexperienced programmers. That means debugging experience makes an enormous difference in programming efficiency. We have lots of books on software design, unfortunately, rare of them have introduction about debugging, even the courses in school.
+調査によると、経験豊富なプログラマーが同じ不具合を見つけるためにデバッグに費やす時間は、経験の浅いプログラマーの約20分の1だそうです。つまり、デバッグの経験がプログラミングの効率を大きく左右するということです。ソフトウェア設計に関する本はたくさんありますが、残念ながら学校の授業でもデバッグについて紹介しているものはほとんどありません。
 
-As the debugger improving over the years, the programmers' coding style is changed thoroughly. Of course, the debugger can not replace the good thinking, thinking can not replace the excellent debugger, the most perfect combination is excellent debugger with good thinking.
+デバッガーが年々改良されていくにつれて、プログラマーのコーディングスタイルも大きく変わっていきます。もちろん、デバッガーは優れた思考に取って代わることはできませんし、思考は優れたデバッガーに取って代わることはできませんが、最も完璧な組み合わせは、優れたデバッガーと優れた思考です。
 
-The following graph is the nine debugging rules described in book <Debugging: The 9 Indispensable Rules for Finding Even the Most Elusive Software and Hardware Problems>.
+次のグラフは、書籍「デバッグ」で紹介されている9つのデバッグルールです。The 9 Indispensable Rules for Finding Even the Most Elusive Software and Hardware Problems＞に記載されている9つのデバッグルールです。
 
 <p align="center">
 
@@ -38,61 +40,61 @@ The following graph is the nine debugging rules described in book <Debugging: Th
 
 </p>
 
-## Assembly Language
+## アセンブリ言語
 
-> Although as an iOS programmer, most of the time in the work will not deal with the assembly language, but understand the assembly is still very helpful, especially when debugging a system framework or a third-party framework without the source code.
+> iOSプログラマーとして、仕事のほとんどの時間はアセンブリ言語を扱うことはありませんが、アセンブリを理解することは、特にソースコードのないシステムフレームワークやサードパーティのフレームワークをデバッグする際に、非常に役に立ちます。
 
-Asssembly Language is a low-level machine-oriented programming language, which can be thought of as a collection of mnemonics for machine instructions for various CPUs. Programmers can use assembly language to control the computer hardware system directly. and the program written in assembly language have many merits, like fast execution speed and less memory occupied.
+アセンブリ言語とは、低レベルの機械指向プログラミング言語であり、様々なCPU用の機械語命令のニーモニックの集合体と考えることができる。また、アセンブリ言語で書かれたプログラムは、実行速度が速い、メモリ使用量が少ないなどのメリットがあります。
 
-So far, two major architectures are widely used on the Apple platform, x86 and ARM. In the mobile device using the ARM assembly language, which is mainly because the ARM is a reduced instruction set computing (RISC) architecture, with low power consumption advantage. While the desktop platform like Mac OS, x86 architecture is used. The Apps installed on iOS simulators is actually running as a Mac OS App inside the simulator, which means simulator is working like a container. Since our case was debugged in the iOS simulators, the main research goal is **x86** assembly language.
+現在、アップル社のプラットフォームでは、x86とARMという2つの主要なアーキテクチャが広く使われている。モバイル機器ではARMのアセンブリ言語を使用していますが、これは主にARMが低消費電力の利点を持つ縮小命令セットコンピューティング（RISC）アーキテクチャであるためです。一方、Mac OSなどのデスクトッププラットフォームでは、x86アーキテクチャが使用されています。iOSシミュレータにインストールされたアプリは、実際にはシミュレータ内でMac OSアプリとして動作しており、シミュレータがコンテナのように機能していることになります。今回のケースはiOSシミュレータでデバッグを行ったため、主な研究対象は**x86**アセンブリ言語です。
 
 ### AT&T and Intel
 
-x86 assembly language evolves into two syntax branches: Intel (orignially used in the x86 platform documentation) and AT&T. Intel dominates the MS-DOS and Windows family, while AT&T is common in UNIX family. There is a huge difference on syntax between Intel and AT&T, like variable, constant, the access of registers, indirect addressing and offset. Although their syntax difference is enormous, the hardware system is the same which means one of them can be migrated to the other seamlessly. Since AT&T assembly language is used on Xcode, we will focus on **AT&T** in below part.
+x86のアセンブリ言語は、2つの構文に分かれています。インテル(x86プラットフォームのドキュメントで使われていたもの)とAT&Tです。インテルはMS-DOSやWindows系で主流であり、AT&TはUNIX系で一般的です。インテルとAT&Tでは、変数、定数、レジスタへのアクセス、間接アドレス、オフセットなどの構文に大きな違いがあります。このように構文には大きな違いがありますが、ハードウェアシステムは同じなので、どちらか一方をシームレスに移行することができます。XcodeではAT&Tのアセンブリ言語を使用しているので、以下では**AT&T**に焦点を当てて説明します。
 
-> Please notice that Intel syntax is used on 
-the disassembly tools of Hopper Disassemble and IDA Pro.
+> Hopperの逆アセンブルツールではインテルの構文が使われていることに注意してください。
+逆アセンブルツールであるHopper DisassembleとIDA Proではインテルの構文が使われています。
 
-Belows are the differences between Intel and AT&T:
-1. The prefix of operand: In AT&T syntax, `%` is used as the prefix of registers' name and `$` is used as the prefix of immediate operand, while no prefix is used for both registers and immediate operand in Intel. The other difference is `0x` is added as the prefix for hexadecimal in AT&T. The chart below demonstrates the difference between their prefixes:
+インテルとAT&Tの違いは以下の通りです。
+1. オペランドの接頭辞。AT&Tの構文では、レジスタ名の接頭辞として`%`、即値オペランドの接頭辞として`$`が使われていますが、インテルではレジスタ、即値オペランドともに接頭辞は使われていません。また、AT&Tでは16進数の接頭辞として「0x」が追加されている点も異なる。下の図は、それぞれの接頭辞の違いを示したものです。
 
 	| AT&T | Intel |
 	|:-------:|:-------:|
-	| movq %rax, %rbx | mov rbx, rax |
+	| movq %rax, %rbx | mov rbx, rax | | addq $0x10, %rbx
 	| addq $0x10, %rsp | add rsp, 010h |
 
-> In Intel syntax, `h` suffix is used for hexadecimal operand and `b` suffix is used for binary operand.
+> インテルの構文では、16進数のオペランドには接尾辞「h」が、2進数のオペランドには接尾辞「b」が使われます。
 
-2. Operand: In AT&T syntax, the first operand is source operand, the second operand is destination operand. However, in Intel syntax, the order of operand is opposite. From this point, the syntax of AT&T is more comfortable for us according to our reading habit.
-3. Addressing Mode: Comparing with Intel syntax, the indirect addressing mode of AT&T is hard to read. However, the algorithm of address calculation is the same: `address = disp + base + index * scale`. `base` represents the base address, `disp` stands for offset address, `index * scale` determines the location of an element, `scale` is the size of an element which can only be a power of two. `disp/base/index/scale` are all optional, the default value of `index` is 0, while the default value of `scale` is 1. Now let's see the instruction of address calculation: `%segreg: disp(base,index,scale)` is for AT&T, and `segreg: [base+index*scale+disp]` is for Intel. In fact, above two instructions both belong to segment addressing mode. `segreg` stands for segment register which is usually used in real mode when the digit capacity of CPU addressing beyonds the register' digit. For example, CPU can address 20-bit space, but the register only has 16-bit. To achieve 20-digit space, another addressing mode needs to be used: `segreg:offset`. With this addressing mode, the offset address will be `segreg * 16 + offset`, but it's more complicated than flat memory mode. In protect mode, the addressing is under linear address space, which means segment base address can be ignored.
+2. オペランド AT&Tのシンタックスでは、第1オペランドがソースオペランド、第2オペランドがデスティネーションオペランドとなります。しかし、インテルの構文では、オペランドの順番が逆になります。この点からも、私たちの読書習慣からすると、AT&Tの構文の方がしっくりきます。
+3. アドレッシングモード。AT&Tの間接アドレッシングモードは、インテルの構文と比較して読みにくい。しかし、アドレス計算のアルゴリズムは同じで、「address = disp + base + index * scale」となっています。`base` はベースアドレスを表し、`disp` はオフセットアドレスを表し、`index * scale` は要素の位置を決定し、`scale` は要素のサイズで、2の累乗にしかなりません。`segreg: disp(base,index,scale)` はAT&Tの命令で、 `segreg: [base+index*scale+disp]` はインテルの命令です。実は、上記2つの命令はどちらもセグメントアドレッシングモードに属しています。segreg`はセグメントレジスタの略で、通常、リアルモードではCPUのアドレッシングの桁数がレジスタの桁数を超える場合に使われます。例えば、CPUは20ビットの空間をアドレス指定できますが、レジスタは16ビットしかありません。20桁のスペースを確保するには、別のアドレッシングモードを使用する必要があります。それが `segreg:offset` `です。このアドレッシングモードでは、オフセットアドレスは `segreg * 16 + offset` `となりますが、フラットメモリモードよりも複雑になります。プロテクトモードでは、アドレッシングはリニアアドレス空間の下で行われるので、セグメントベースアドレスは無視できます。
 
 	| AT&T | Intel |
 	|:-------:|:-------:|
 	| movq 0xb57751(%rip), %rsi | mov rsi, qword ptr [rip+0xb57751h] |
 	| leaq (%rax,%rbx,8), %rdi | lea rdi, qword ptr [rax+rbx*8] |
 	
-> If immediate operand comes at the place of `disp` or `scale`, `$` suffix can be omitted. In Intel syntax, `byte ptr`, `word ptr`, `dword ptr` and `qword ptr` need to be added before the memory operand.
+> 即値オペランドが `disp` または `scale` の場所に来る場合は、`$` サフィックスは省略できます。インテルの構文では、メモリオペランドの前に、`byte ptr`、`word ptr`、`dword ptr`、`qword ptr`を付ける必要があります。
 
-4. Suffix of opcode: In AT&T syntax, all opcodes have a suffix to specify the size. There are generally four kinds of suffixes:`b`,`w`,`l` and `q`. `b`represents 8-bit byte, `w` means 16-bit word, `l` means 32-bit double word. 32-digit word is also called as long word which is from the 16-bit days. `q` represents 64-bit quadword. The chart below illustrates the syntax of data transition instruction(mov) in AT&T and Intel.
+4. オペコードのサフィックス。AT&Tの構文では、すべてのオペコードにサイズを指定するサフィックスがついています。一般的には、`b`、`w`、`l`、`q` の4種類の接尾辞があります。 `b` は8ビットのバイトを、`w` は16ビットのワードを、`l` は32ビットのダブルワードを表す。32桁のワードは、16ビット時代のロングワードとも呼ばれる。`q` は64ビットのクワッドワードを表す。下の図は、AT&Tとインテルのデータ移行命令（mov）の構文を示しています。
 
-	| AT&T | Intel |
+	| AT&T｜Intel |
 	|:-------:|:-------:|
 	| movb %al, %bl | mov bl, al |
-	| movw %ax, %bx | mov bx, ax |
-	| movl %eax, %ebx | mov ebx, eax |
-	| movq %rax, %rbx | mov rbx, rax |
+	| movw %ax, %bx｜mov bx, ax｜｜｜
+	| movl %eax, %ebx | mov ebx, eax | 
+	| movq %rax, %rbx｜mov rbx, rax｜｜｜
 
 ### Register
 
-As we know, Memory is used to store instructions and data for CPU. Memory is essentially an array of bytes. Although the speed of memory access is very fast, we still need a smaller and faster storage unit to speed up the CPU's instruction execution, which is register. During the instruction execution, all data are temporarily stored in registers. That's why register is named in.
+ご存知のように、メモリはCPUの命令やデータを格納するためのものです。メモリは基本的にバイトの配列です。メモリのアクセス速度は非常に高速ですが、CPUの命令実行を高速化するためには、より小型で高速な記憶装置が必要です。それがレジスタです。命令の実行中、すべてのデータは一時的にレジスタに格納されます。これが、レジスタの名前の由来です。
 
-When processors grows from 16-bit to 32-bit, 8 registers are extended to 32-bit too. After that, when the extended registers are used, `E` prefix is added to the original register name. 32-bit processor is Intel Architecture 32-bit, which is IA32. Today, the main processors are 64-bit Intel architecture, which is extended from IA32 and been called x86-64. Since IA32 is past, this article will only focus on x86-64. Note that in x86-64, the amount of registers is extended from 8 to 16. Just because of this extension, the program state can be stored in registers but not stacks. Thus, the frequency of memory access is hugely reduced.
+プロセッサが16ビットから32ビットになると、8本のレジスタも32ビットに拡張されます。その後、拡張されたレジスタを使用する際には、元のレジスタ名に「E」という接頭語が追加される。32ビットプロセッサは、Intel Architecture 32ビット、すなわちIA32である。現在、主要なプロセッサは、IA32を拡張した64ビットのインテル・アーキテクチャーで、x86-64と呼ばれています。IA32は過去のものなので、本稿ではx86-64のみを取り上げる。なお、x86-64では、レジスタの数が8本から16本に拡張されています。この拡張のおかげで、プログラムの状態はレジスタに格納できますが、スタックには格納できません。そのため、メモリアクセスの頻度が大幅に減ります。
 
-In x86-64, there are 16 64-bit general registers and 16 floating pointer registers. Besides, CPU has one more 64-bit instruction pointer register called `rip`. It is designed to store the address of the next executed instruction. There are also some other registers which are not widely used, we don't intend to talk about them in this article. Among the 16 general registers, eight of them are from the IA32: rax、rcx、rdx、rbx、rsi、rdi、rsp and rbp. The other eight general registers are new added since x86-64 which are r8 - r15. The 16 floating registers are xmm0 - xmm15.
+x86-64では、64ビットの一般レジスターが16本、フローティングポインタレジスターが16本。また、CPUには「rip」と呼ばれる64ビットの命令ポインタ・レジスタがもう1つある。これは、次に実行される命令のアドレスを格納するためのものである。この他にも、あまり使われていないレジスタがいくつかありますが、ここでは触れません。16本のジェネラルレジスタのうち、8本はIA32からのもので、rax、rcx、rdx、rbx、rsi、rdi、rsp、rbpです。残りの8本はx86-64から新たに追加されたジェネラルレジスタで、r8～r15である。16本のフローティングレジスタはxmm0～xmm15です。
 
-Current CPUs are from 8088, the register is also extended from 16-bit to 32-bit and finally to 64-bit. Thus, the program can still access the low 8-bit or 16-bit or 32-bit of the registers. 
+現在のCPUは8088からなので、レジスタも16ビットから32ビット、そして64ビットへと拡張されている。そのため、プログラムはレジスタの下位8ビット、16ビット、32ビットにアクセスすることができます。
 
-Below chart illustrates the 16 general registers of x86-64:
+下の図は、x86-64の16本の一般的なレジスタを示しています。
 
 <p align="center">
 
@@ -100,9 +102,9 @@ Below chart illustrates the 16 general registers of x86-64:
 
 </p>
 
-Using `register read` command in LLDB can dump the register data of current stack frame.
+LLDBの`register read`コマンドを使うと、現在のスタックフレームのレジスタデータをダンプすることができます。
 
-For example, we can use below command to show all the data in the register:
+例えば、以下のコマンドを使用すると、レジスタ内のすべてのデータを表示することができます。
 
 ```
 register read -a or register read --all
@@ -242,23 +244,23 @@ Exception State Registers:
   faultvaddr = 0x000000010bb91000  
 ```
 
-As we know, there are 16 floating pointer registers in x86-64: xmm0 - xmm15. In fact, there are some other details of it. In the output of `register read -a` command, you may notice that there have stmm and ymm registers besides xmm register group. Here stmm is an alias of st register, and st is a register of FPU(Float Point Unit) in x86 to handle float data. The FPU contains one float pointer register which has eight 80-bit float pointer registers: st0 - st7. We can observe that the stmm register is 80-bit from the output, which can prove the stmm register is st register. xmm is 128-bit register, and ymm register is 256-bit which is an extension of xmm. In fact, xmm register is the low 128-bit of ymm register. Like the eax register is the low 32-bit of rax register. In Pentium III, Intel published an instruction set called SSE(Streaming SIMD Extensions) which is an extension of [MMX](https://zh.wikipedia.org/wiki/MMX). Eight new 128-bit registers(xmm0 - xmm7) are added in SSE. AVX(Advanced Vector Extensions) instruction set is an extension architecture of SSE. Also in AVX, the 128-bit register xmm was extended to 256-bit register ymm. 
+ご存知のように、x86-64にはxmm0～xmm15の16本のフローティング・ポインタ・レジスタがあります。実は、それ以外にもいくつかの詳細がある。register read -a`コマンドの出力を見ると、xmmレジスタ群の他にstmmとymmのレジスタがあることに気づくでしょう。ここで、stmmはstレジスタの別名で、stはx86のFPU（Float Point Unit）でフロートデータを扱うためのレジスタである。FPUには1つのフロート・ポインタ・レジスタがあり、そのレジスタには80ビットのフロート・ポインタ・レジスタが8つ（st0～st7）あります。xmmは128ビットのレジスタで、ymmはxmmを拡張した256ビットのレジスタです。実際には、xmmレジスタはymmレジスタの下位128ビットです。eaxレジスタがraxレジスタの下位32ビットであるように。Pentium IIIでは、インテルは[MMX](https://zh.wikipedia.org/wiki/MMX)を拡張したSSE(Streaming SIMD Extensions)という命令セットを発表した。SSEでは、新たに8つの128ビットレジスタ（xmm0～xmm7）が追加された。AVX(Advanced Vector Extensions)命令セットはSSEの拡張アーキテクチャです。また、AVXでは128ビットのレジスタxmmが256ビットのレジスタymmに拡張された。
 
 <p align="center">
 
-<img src="Images/float_register_en.png" />
+<img src="Images/float_register_en.png" />。
 
 </p>
 
 ### Function
 
-A function calling includes parameter passing and control transfer from one compilation unit to another. In function calling procedure, data passing, local variable assignment and release are carried out by stack. And the stacks assigned to a single function calling are called Stack Frame.
+関数呼び出しには、パラメータの受け渡しや、あるコンパイルユニットから別のコンパイルユニットへの制御の受け渡しが含まれます。関数呼び出しの手順では、データの受け渡しやローカル変数の割り当て、解放などはスタックによって行われます。また、1つの関数呼び出しに割り当てられたスタックをスタックフレームと呼びます。
 
-> The function calling convention of OS X x86-64 is the same with the convention described in the article: [System V Application Binary Interface AMD64 Architecture Processor Supplement](http://www.ucw.cz/~hubicka/papers/abi/). Therefore you can refer to it if you are interested in it.
+> OS X x86-64の関数呼び出し規約は、記事で紹介されている規約と同じです。OS X x86-64の関数呼び出し規則は、[System V Application Binary Interface AMD64 Architecture Processor Supplement](http://www.ucw.cz/~hubicka/papers/abi/)に記載されている規則と同じです。そのため、興味のある方は参考にしてください。
 
 #### The Stack Frame
 
-During LLDB debugging, we may use `bt` command to print the stack trace of the current thread, like below:
+LLDBのデバッグでは、`bt` コマンドを使って、以下のように現在のスレッドのスタックトレースを表示することができる。
 
 ```
 (lldb) bt
@@ -270,22 +272,23 @@ During LLDB debugging, we may use `bt` command to print the stack trace of the c
     // many other frames are ommitted here
 ```
 
-In fact, `bt` command is workable upon stack frame. The stack frame preserves return address and local variable for functions which can be seen as a context of a function execution. As we know, the heap grows upward, while the stack grows downward which is from large-numbered memory addresses to small-numbered ones. Once a function is called, one standalone stack frame is assigned for the function calling. The rbp register, called as frame pointer, always points to the end of the  latest allocated stack frame (high address). The rsp register, called as stack pointer, always points to the top of the latest allocated stack frame (low address). Below is a chart of frame stack:
+実際、`bt`コマンドはスタックフレームの上で動作します。スタックフレームは、関数のリターンアドレスやローカル変数を保持しており、これは関数実行のコンテキストと見ることができます。ご存知のように、ヒープは上に向かって成長し、スタックは下に向かって成長します。つまり、大きな数のメモリアドレスから小さな数のメモリアドレスへと成長します。関数が呼び出されると、その関数を呼び出すために1つの独立したスタックフレームが割り当てられます。フレームポインタと呼ばれるrbpレジスタは、常に割り当てられた最新のスタックフレームの終端（上位アドレス）を指しています。スタックポインタと呼ばれるrspレジスタは，常に割り当てられた最新のスタックフレームの先頭（ローアドレス）を指しています。以下にフレームスタックの図を示します。
+
 <p align="center">
 
-<img src="Images/stack_frame.png" />
+<img src="Images/stack_frame.png" />。
 
 </p>
 
-The left column `Position` is memory address which uses indirect addressing mode. `Content` is the value of the address in `Position` points to. According to the struct of stack frame in above chart, the function calling procedure can be described as several steps as follows:
-1. Calling function pushes the parameters on the stack. If there is no parameter, this step can be skipped.
-2. Push the first instruction after the function calling onto the stack which is actually the return address.
-3. Jump to the start address of the called function and execute.
-4. Called function preserves the start  address in %rbp register.
-5. Preserve the value in %rsp register to %rbp register, so that %rbp register can point to the stack frame's start address of the called function.
-6. Push the called function's register on the stack. This is optional.
+左側の列「Position」は、間接アドレス方式のメモリアドレスです。Content」は「Position」が指し示すアドレスの値です。上の図のスタックフレームの構造によると、関数呼び出しの手順は、以下のようないくつかのステップに分けて説明できます。
+1. 1. 呼び出した関数は，パラメータをスタックにプッシュします．パラメータがない場合，このステップは省略できます．
+2. 2. 関数呼び出し後の最初の命令をスタックにプッシュします。これは実際にはリターンアドレスです。
+3. 呼び出された関数の開始アドレスにジャンプして実行します。
+4. 呼び出された関数は、%rbp レジスタに開始アドレスを保持します。
+5. 5. %rspレジスタの値を%rbpレジスタに保存し、%rbpレジスタが呼び出された関数のスタックフレームの開始アドレスを指すようにする。
+6. 6. 呼び出された関数のレジスタをスタックにプッシュします。これはオプションである．
 
-Step 2 and 3 actually belong to `call` instruction. In addition, step 4 and step 5 can be described in assembly instruction as follows:
+ステップ2とステップ3は、実際には`call`命令に属します。また、ステップ4とステップ5は、アセンブリ命令では以下のように記述できます。
 
 ```
 TestDemo`-[ViewController viewDidLoad]:
@@ -293,7 +296,7 @@ TestDemo`-[ViewController viewDidLoad]:
     0x1054e09c1 <+1>:  movq   %rsp, %rbp //step 5
 ```
 
-It's easy to notice that these two steps are along with each function calling. There is another detail of above chart: there is a red area below rsp register, which is called as Red Zone by ABI. It is a reserved and shall not be modified by signal or interrupt handlers. Since it can be modified during function calling, therefore, leaf functions which means those functions that never call other functions can use this area for temporary data. 
+この2つのステップは、それぞれの関数を呼び出す際に行われていることがわかります。上の図にはもう一つ詳細があります。rspレジスタの下に赤い領域がありますが、これはABIでレッドゾーンと呼ばれています。これは予約領域であり、シグナルハンドラや割り込みハンドラで変更してはいけません。したがって、リーフ関数、つまり、他の関数を呼び出さない関数は、この領域を一時的なデータ用に使用することができます。
 
 ```
 UIKit`-[UIViewController loadViewIfRequired]:
@@ -306,7 +309,7 @@ UIKit`-[UIViewController loadViewIfRequired]:
     0x1064a63fd <+12>:   pushq  %rbx
 ```
 
-Among above instructions, instruction from `0x1064a63f5` to `0x1064a63fd` belong to step 6. There is a kind of registers called function preserve register which means they belong to calling function, but the called function is required to preserve their values. From below assembly instructions, we can see rbx, rsp and r12 - r15 all belong to such registers.
+上記の命令のうち、`0x1064a63f5`から`0x1064a63fd`までの命令はステップ6に属します。レジスタには関数保持レジスタと呼ばれるものがあり、呼び出した関数に属するが、呼び出された関数がその値を保持する必要があることを意味します。下のアセンブリ命令から、rbx、rsp、r12～r15がこのようなレジスタに属していることがわかります。
 
 ```
     0x1064a6c4b <+2138>: addq   $0x1f8, %rsp              ; imm = 0x1F8 
@@ -321,45 +324,48 @@ Among above instructions, instruction from `0x1064a63f5` to `0x1064a63fd` belong
 ```
 
 #### Call instruction
-The instruction to call a function is `call`, refer to below:
+
+関数を呼び出すための命令は `call` で、以下を参照してください。
 
 ```
 call function
 ```
-`function` in the parameter is the procedures in **TEXT** segment. `Call` instruction can split into two steps. The first step is to push the next instruction address of `call` instruction on stack. Here, the next address is actually the return address after the called function is finished. The second step is jump to `function`. `call` instruction is equivalent to below two instructions:
+
+パラメータの `function` は **TEXT** セグメントのプロシージャです。`call` 命令は2つのステップに分けられます。最初のステップは、`call` 命令の次の命令のアドレスをスタックにプッシュすることです。ここで、次のアドレスは、実際には、呼び出された関数が終了した後のリターンアドレスです。2つ目のステップは `function` へのジャンプです。call`命令は、以下の2つの命令に相当します。
 
 ```
 push next_instruction
 jmp  function
 ```
 
-Following is the example of `call` instruction in iOS simulator:
+以下は、iOSシミュレータでの`call`命令の例です。
 
 ```
-    0x10915c714 <+68>:  callq  0x1093ca502               ; symbol stub for: objc_msgSend
-    0x105206433 <+66>:  callq  *0xb3cd47(%rip)           ; (void *)0x000000010475e800: objc_msgSend
+    0x10915c714 <+68>: callq 0x1093ca502 ; symbol stub for: objc_msgSend
+    0x105206433 <+66>: callq *0xb3cd47(%rip) ; (void *)0x000000010475e800: objc_msgSend
 ```
-Above code shows two usages of `call` instruction. In the first usage, the operand is a memory address which is actually a Symbol Stub of a Mach-O file. It can search the symbol of a function through the dynamical linker. In the second usage, the operand is actually obtained by indirect addressing mode. Furthermore, in AT&T syntax, `*` needs to be added to the immediate operand in the jump/call instruction(or the jumps related with programmer counter) as a prefix.
+
+上のコードは、`call` 命令の2つの使い方を示しています。1つ目の使い方では、オペランドはメモリアドレスで、実際にはMach-Oファイルのシンボルスタブです。これにより、動的リンカーを使って関数のシンボルを検索することができます。2番目の使い方では、オペランドは実際には間接アドレッシングモードで取得されます。なお、AT&Tの構文では、ジャンプ／コール命令（またはプログラマカウンタ関連のジャンプ）の即値オペランドには、プレフィックスとして`*`を付ける必要があります。
 
 #### Ret instruction
 
-In general, `ret` instruction is used to return the procedure from the called function to the calling function. This instruction pops the address from the top of stack and jump back to that address and keep executing. In above example, it jumps back to `next_instruction`. Before `ret` instruction is executed, the registers belong to calling function will be poped. This is already mentioned in step 6 of function calling procedure. 
+一般に，`ret`命令は，呼び出された関数から呼び出した関数にプロシージャを戻すために使用されます。この命令は、スタックの先頭からアドレスをポップし、そのアドレスにジャンプバックして実行を続けます。上の例では、`next_instruction`にジャンプバックしています。ret`命令が実行される前に、呼び出した関数に属するレジスタがポップされます。これは、関数呼び出し手順のステップ6ですでに述べたとおりです。
 
 #### Parameter passing and return value
 
-Most of the functions have parameter which can be integer, float, pointer and so on. Besides, functions usually have return value which can indicate the execution result is succeed or failed. In OSX, at most 6 parameters can be passed through registers which are rdi, rsi, rdx, rcx, r8 and r9 in order. How about a function with more than 6 parameters? Of course, this circumstance exists. If this happens, stack can be used to preserve the remaining parameters in reversed order. OSX has eight floating point registers which allow to pass up to 8 float parameters.
+ほとんどの関数には、整数、浮動小数点、ポインタなどのパラメータがあります。また、関数には通常、実行結果が成功したか失敗したかを示す戻り値があります。OSXでは、最大6個のパラメータを、rdi、rsi、rdx、rcx、r8、r9の順にレジスタを介して渡すことができます。では、6個以上のパラメータを持つ関数はどうでしょうか？もちろん、このような状況もあります。このような場合、スタックを使って残りのパラメータを逆の順序で保存することができます。OSXには8つの浮動小数点レジスタがあり、最大8つの浮動小数点パラメータを渡すことができます。
 
-About the return value of a function, `rax` register is used to save the integer return value. If the return value is a float, xmm0 - xmm1 registers shall be used. Below chart clearly illustrates the register usage convention during the function calling.
+関数の戻り値については、整数の戻り値を保存するために `rax` レジスタが使われます。戻り値が浮動小数点の場合は、xmm0～xmm1レジスタを使用する。下の図は、関数呼び出し時のレジスタ使用規則を明確に示しています。
 
 <p align="center">
 
-<img src="Images/register_usage.png" />
+<img src="Images/register_usage.png" />。
 
 </p>
 
-`preserved across function calls` indicates whether the register needs to be preserved across function call. We can see that besides rbx, r12 - r15 registers mentioned above, rsp and rbp registers also belong to callee-saved registers. This is because these two registers reserve the important location pointers that point to the program stack. 
+Preserved across function calls`は、レジスタが関数呼び出しの間も保存される必要があるかどうかを示します。前述のrbx、r12～r15レジスタの他に、rspとrbpレジスタもcalle-savedレジスタに属していることがわかります。これは、この2つのレジスタが、プログラムスタックを指す重要なロケーションポインターを予約しているからです。
 
-Next we'll follow a real example to demonstrate the instructions in a function call. Take the macro `DDLogError` in `CocoaLumberjack` as example. When this macro is called, class method `log:level:flag:context:file:function:line:tag:format:` is called. Following code and instructions are about the call of `DDLogError` and the corresponding assembly instructions:
+次に、実際の例に沿って、関数呼び出しの命令を説明します。例えば，`CocoaLumberjack`のマクロ`DDLogError`を例にとります．このマクロが呼び出されると、クラスメソッド `log:level:flag:context:file:function:line:tag:format:` が呼び出されます。以下のコードと説明は `DDLogError` の呼び出しとそれに対応するアセンブリ命令についてです。
 
 ```
 - (IBAction)test:(id)sender {
@@ -400,46 +406,48 @@ Next we'll follow a real example to demonstrate the instructions in a function c
     0x102c5692b <+235>: callq  0x102c7d2be               ; symbol stub for: objc_msgSend
 ```
 
-Since all functions of Objective-C will turn into the invocation of `objc_msgSend` function, so `log:level:flag:context:file:function:line:tag:format:` method finally turn into below codes:
+Objective-Cのすべての関数は、`objc_msgSend`関数の呼び出しになるので、`log:level:flag:context:file:function:line:tag:format:`メソッドは最終的に以下のコードになります。
 
 ```
 objc_msgSend(DDLog, @selector(log:level:flag:context:file:function:line:tag:format:), asynchronous, level, flag, context, file, function, line, tag, format, sender)
 ```
 
-We already mentioned at most 6 registers can be used for parameter passing. The excess parameters can use stack to do the passing. Since above function has more than 6 parameters, the parameter passing would use both registers and stack. Below two tables describe the detail usage of registers and stack for the parameter passing of `DDLogError` function invocation.
+パラメータの受け渡しに使用できるレジスタの数は最大6個であることはすでに述べました。余ったパラメータはスタックを使って受け渡しを行うことができます。上記の関数には6個以上のパラメータがあるので、パラメータの受け渡しにはレジスタとスタックの両方が使われます。以下の2つの表は、`DDLogError`関数を呼び出す際の、レジスタとスタックの詳細な使用方法を示しています。
 
-| General Register | value | Parameters | Assembly Instructions | Comment |
+|  一般的なレジスタ | 値| パラメータ | アセンブリ命令 | コメント|
 |:-------:|:-------:|:-------:|:-------:|:-------:|
-| rdi | DDLog | self | 0x102c568eb <+171>: movq   %r11, %rdi | |
-| rsi | "log:level:flag:context:file:function:line:tag:format:" | op | 0x102c568f2 <+178>: movq   %r15, %rsi | |
-| rdx | 0 | asynchronous | 0x102c568a3 <+99>:  xorl   %edx, %edx | xorl is an exclusive-OR operation. Here it's used to clear the edx register |
-| rcx | 18446744073709551615 | level | 0x102c568f9 <+185>: movq   %rbx, %rcx | (DDLogLevelAll or NSUIntegerMax) |
-| r8 | 1 | flag | 0x102c568aa <+106>: movl   %eax, %r8d | DDLogFlagError |
-| r9 | 0 | context | 0x102c568af <+111>: movl   %eax, %r9d | |
+| rdi | DDLog | self | 0x102c568eb <+171>: movq %r11, %rdi | |
+| rsi | "log:level:flag:context:file:function:line:tag:format:" | op｜0x102c568f2 <+178>: movq %r15, %rsi| |
+| 0x102c568a3 <+99>: xorl %edx, %edx | xorlは、排他的論理和演算です。ここでは edx レジスタのクリアに使用しています。 |
+| rcx | 18446744073709551615 | level | 0x102c568f9 <+185>: movq %rbx, %rcx | (DDLogLevelAll or NSUIntegerMax) |
+| 0x102c568aa <+106>: movl %eax, %r8d｜DDLogFlagError｜（DDLogLevelAllまたはNSIntegerMax |
+| r9 | 0 | context | 0x102c568af <+111>: movl %eax, %r9d | | DDLogFlagError |
 
-| Stack Frame Offset | Value | Parameters | Assembly Instructions | Comment |
+| スタックフレームオフセット|値|パラメータ|アセンブリ命令|コメント|
 |:-------:|:-------:|:-------:|:-------:|:-------:|
-| (%rsp) | "/Users/dev-aozhimin/Desktop/TestDDLog/TestDDLog/ViewController.m" | file | 0x102c56900 <+192>: movq   %r11, (%rsp) | |
-| 0x8(%rsp) | "-[ViewController test:]" | function | 0x102c56908 <+200>: movq   %rbx, 0x8(%rsp) | |
-| 0x10(%rsp) | 0X22 | line | 0x102c5690d <+205>: movq   $0x22, 0x10(%rsp) | The corresponding invocation of DDLogError is in Line 34 |
-| 0x18(%rsp) | 0X0 | tag | 0x102c56916 <+214>: movq   $0x0, 0x18(%rsp) | nil |
-| 0x20(%rsp) | "TestDDLog:%@" | format | 0x102c5691f <+223>: movq   %r10, 0x20(%rsp) | |
-| 0x28(%rsp) | sender | The first parameter of variable parameters | 0x102c56924 <+228>: movq   %r14, 0x28(%rsp) | A instance of UIButton |
+| (%rsp) | "/Users/dev-aozhimin/Desktop/TestDDLog/TestDDLog/ViewController.m" | ファイル | 0x102c56900 <+192>: movq %r11, (%rsp) | |
+| 0x8(%rsp) | "-[ViewController test:]" | ファンクション | 0x102c56908 <+200>: movq %rbx, 0x8(%rsp) | |
+| 0x10(%rsp) | 0X22 | 行 | 0x102c5690d <+205>: movq $0x22, 0x10(%rsp) | 対応するDDLogErrorの起動は34行目にあります | 
+| 0x18(%rsp) | 0X0 | タグ | 0x102c56916 <+214>: movq $0x0, 0x18(%rsp) | nil |
+| 0x20(%rsp) | "TestDDLog:%@" | フォーマット | 0x102c5691f <+223>: movq %r10, 0x20(%rsp) | |
+| 0x28(%rsp) | UIButtonのインスタンス | 可変パラメータの第1パラメータ | 0x102c56924 <+228>: movq %r14, 0x28(%rsp) | UIButtonのインスタンス |
 
-> If the value of register is a string, like `op` parameter in `rsi` register, the string can be printed directly in LLDB through `po (char *) $rsi` command. Else, `po $rsi` can be used to print a value in integer format.
+他にも，`po $rsi`を使って整数形式の値を印刷することもできます．
 
-With the help of assembly language, we can look into some low-level knowledge which is very necessary during debugging. I try very hard to introduce the assembly related knowledge as detailed as I can. However, the knowledge hierarchy of assembly is too enormous to describe in one article. Please refer to the references mentioned above. In addition, the third chapter of **CSAPP** -- Machine level representation of a program  is highly recommended too. It's a rare good material for reference.
+アセンブリ言語の助けを借りれば、デバッグ時に非常に必要となる低レベルの知識を調べることができます。アセンブリ関連の知識をできるだけ詳しく紹介しようと努力しています。しかし、アセンブリの知識階層は膨大であり、1回の記事では説明しきれません。前述の文献を参考にしてください。また、**CSAPP**の第3章 -- Machine level representation of a programもお勧めです。これは稀に見る良い参考資料だと思います。
 
 ## Case
 
-This article illustrates the procedure of debugging through a real case. Some of the details are changed to protect personal privacy.
+この記事では、実際のケースを通して、デバッグの手順を説明しています。個人情報保護のため、一部内容を変更しています。
 
 ### Issue
-The issue we are going to talk about was happening when I was developing a login SDK. One user claimed the app crashed when he pressed the "QQ" button in login page. As we debugged this issue, we found the crash happened if the QQ app was not installed at the same time. When user presses QQ button to require a login, the QQ login SDK tries to launch an authorization web page in our app. In this case, an unrecognized selector error `[TCWebViewController setRequestURLStr:]` occurs.
 
-> P.S: To focus on the issue, the unnecessary business debug information is not listed below. Meanwhile **AADebug** is used as our app name. 
+今回ご紹介する問題は、私がログインSDKを開発していたときに起こったものです。あるユーザーが、ログインページで「QQ」ボタンを押すとアプリがクラッシュすると言っていました。この問題をデバッグしたところ、QQアプリが同時にインストールされていないとクラッシュが起こることがわかりました。ユーザーがQQボタンを押してログインを要求すると、QQログインSDKはアプリ内の認証Webページを起動しようとします。この場合、認識されないセレクタエラー `[TCWebViewController setRequestURLStr:]` が発生します。
 
-Here is the stack trace of this crash:
+> P.S: 問題に集中するため、不要なビジネスデバッグ情報は以下に記載していません。また、アプリ名には **AADebug** を使用しています。
+
+以下は、このクラッシュのスタックトレースです。
+
 ```
 Terminating app due to uncaught exception 'NSInvalidArgumentException', reason: '-[TCWebViewController setRequestURLStr:]: unrecognized selector sent to instance 0x7fe25bd84f90'
 *** First throw call stack:
@@ -474,25 +482,26 @@ Lines of irrelevant information are removed here
 )
 libc++abi.dylib: terminating with uncaught exception of type NSException
 ```
+
 ### Message Forwarding
 
-Before talking about the debugging, let's get familiar with the message forwarding in Objective-C. As we know Objective-C uses a messaging structure rather than function calling. The key difference is that in the messaging structure, the runtime decides which function will be executed not compiling time. That means if an unrecognized message is sent to one object, nothing will happen during compiling time. And during runtime, when it receives a method that it doesn't understand, an object goes through message forwarding, a process designed to allow you as the developer to tell the message how to handle the unknown message.
+デバッグの話をする前に、Objective-C のメッセージフォワーディングについて知っておきましょう。ご存知のように、Objective-Cは関数呼び出しではなく、メッセージング構造を使用します。重要な違いは、メッセージング構造では、どの関数を実行するかはコンパイル時ではなくランタイムが決定するということです。つまり、あるオブジェクトに認識されないメッセージが送られても、コンパイル時には何も起こりません。また、ランタイム中に、理解できないメソッドを受け取った場合、オブジェクトはメッセージフォワーディングを行います。これは、開発者として未知のメッセージをどのように処理するかをメッセージに伝えることができるように設計されたプロセスです。
 
-Below four methods are usually involved during message forwarding:
+メッセージフォワーディングの際には、通常、以下の4つのメソッドが関係します。
 
-1. `+ (BOOL)resolveInstanceMethod:(SEL)sel`: this method is called when an unknown message is passed to an object. This method takes the selector that was not found and return a Boolean value to indicate whether an instance method was added to the class that can now handle that selector. If the class can handle this selector, return Yes, then the message forward process is completed. This method is often used to access @dynamic properties of NSManagedObjects in CoreData in a dynamically way. `+ (BOOL)resolveClassMethod:(SEL)sel` method is similar with above method, the only difference is this one class method, the other is instance method.
+1. `+ (BOOL)resolveInstanceMethod:(SEL)sel`: このメソッドは、未知のメッセージがオブジェクトに渡されたときに呼び出されます。このメソッドは、見つからなかったセレクタを受け取り、そのセレクタを扱えるようになったクラスにインスタンスメソッドが追加されたかどうかを示すブール値を返します。クラスがこのセレクタを処理できる場合は Yes を返し、メッセージの転送処理が完了します。このメソッドは、CoreDataのNSManagedObjectの@dynamicプロパティに動的にアクセスするためによく使われます。`+ (BOOL)resolveClassMethod:(SEL)sel` メソッドは、上記のメソッドと似ていますが、唯一の違いは、このメソッドはクラスメソッドであり、もう一方はインスタンスメソッドであることです。
 
-2. `- (id)forwardingTargetForSelector:(SEL)aSelector`：This method provides a second receiver for handling unknow message, and it's faster than `forwardInvocation:`. This method can be used to imitate some features of multiple inheritance. Note that there is no way to manipulate the message using this part of the forwarding path. If the message needs to be altered before sending to the replacement receiver, the full forwarding mechanism must be used.
+2. `- (id)forwardingTargetForSelector:(SEL)aSelector`：このメソッドは未知のメッセージを処理するための第2のレシーバを提供し、`forwardInvocation:`よりも高速です。このメソッドは、多重継承の機能を模倣するために使用することができます。ただし、この転送経路の一部を使ってメッセージを操作する方法はありません。置換された受信者に送信する前にメッセージを変更する必要がある場合は、完全な転送メカニズムを使用する必要があります。
 
-3. `- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector`：If the forwarding algorithm has come this far, the full forwarding mechanism is started. `NSMethodSignature` is returned by this method which includes method description in aSelector parameter. Note that this method needs to be overridden if you want to create a `NSInvocation` object which contains selector, target, and arguments during the message forwarding.
+3. `- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector`：フォワーディングアルゴリズムがここまで来たら、完全なフォワーディングメカニズムを開始する。NSMethodSignature`は、aSelectorパラメータにメソッドの説明を含むこのメソッドによって返されます。なお、メッセージ転送時にセレクタ、ターゲット、引数を含む `NSInvocation` オブジェクトを作成したい場合は、このメソッドをオーバーライドする必要があります。
 
-4. `- (void)forwardInvocation:(NSInvocation *)anInvocation`：The implementation of this method must contains below parts: Find out the object which can handle anInvocation message; Sending message to that object, the anInvocation saves the return value, runtime then sends the return value to the original message sender. In fact, this method can have the same behavior with `forwardingTargetForSelector:` method by simply changing the invocation target and invoking it afterwards, but we barely do that.
+4. `- (void)forwardInvocation:(NSInvocation *)anInvocation`：このメソッドの実装には以下の部分が含まれます。そのオブジェクトにメッセージを送り，anInvocationはその戻り値を保存し，ランタイムはその戻り値を元のメッセージ送信者に送ります．実はこのメソッドは，呼び出し先を変更してから呼び出すだけで，`ForwardingTargetForSelector:`メソッドと同じ動作をすることができますが，ほとんど行いません．
 
-Usually, the first two methods used for message forwarding are called as **Fast Forwarding**, because it provides a much faster way to do the message forwarding. To distinguish from the fast forwarding, method 3 and 4 are called as **Normal Forwarding** or **Regular Forwarding**. It's much slower because it has to create **NSInvocation** object to complete the message forwarding.
+通常、メッセージ転送に使われる最初の2つのメソッドは、**高速転送**と呼ばれます。高速転送と区別するために、3番目と4番目の方法を **通常の転送** または **通常の転送** と呼びます。メッセージの転送を完了するために**NSInvocation**オブジェクトを作成する必要があるため、非常に低速です。
 
-> Note: If `methodSignatureForSelector` method is not overridden or the returned `NSMethodSignature` is nil, `forwardInvocation` will not be called, and the message forwarding is terminated with `doesNotRecognizeSelector` error raised. We can see it from the `__forwarding__` function's source code below.
+> 注意: `methodSignatureForSelector` メソッドがオーバーライドされていない場合や、返される `NSMethodSignature` が nil の場合、`forwardInvocation` は呼び出されず、`doesNotRecognizeSelector` エラーが発生してメッセージ転送が終了します。これは、以下の `__forwarding__` 関数のソースコードから見ることができます。
 
-The process of message forwarding can be described by a flow diagram, see below.
+メッセージ転送のプロセスは、以下のようなフロー図で説明することができます。
 
 <p align="center">
 
@@ -500,15 +509,15 @@ The process of message forwarding can be described by a flow diagram, see below.
 
 </p>
 
-Like described in the flow diagram, at each step, the receiver is given a chance to handle the message. Each step is more expensive than the one before it. The best practice is to handle the message forwarding process as early as possible. If the message is not handled through the whole process, `doesNotRecognizeSeletor` error is raised to state the selector cannot be recognized by the object.
+フロー図で説明したように、各ステップでは、受信者にメッセージを処理する機会が与えられます。各ステップは、その前のステップよりもコストがかかります。ベストプラクティスは、できるだけ早い段階でメッセージの転送処理を行うことである。メッセージがすべてのプロセスで処理されなかった場合は、`doesNotRecognizeSeletor`エラーが発生して、セレクタがオブジェクトに認識されないことを示します。
 
 ### Debugging Process
 
-It's time to finish the theory part and move back to the issue.
+そろそろ理論の部分を終えて問題に戻ります。
 
-According to the `TCWebViewController` information from the trace stack, we naturally associate it with the Tencent SDK **TencentOpenAPI.framework**, but we didn't update the Tencent SDK recently which means the crash was not caused by **TencentOpenAPI.framework**.
+トレーススタックからの`TCWebViewController`の情報によると、当然Tencent SDKの**TencentOpenAPI.framework**に関連していますが、最近Tencent SDKをアップデートしていないので、クラッシュは**TencentOpenAPI.framework**が原因ではないことになります。
 
-First, we decompiled the code and got the struct of the `TCWebViewController` class
+まず、コードを逆コンパイルして、`TCWebViewController`クラスの構造体を取得しました。
 
 ```
 @class TCWebViewController : UIViewController<UIWebViewDelegate, NSURLConnectionDelegate, NSURLConnectionDataDelegate> {
@@ -553,8 +562,8 @@ First, we decompiled the code and got the struct of the `TCWebViewController` cl
     -webView:shouldStartLoadWithRequest:navigationType:
 }
 ```
-From the static analysis result, there was no Setter and Getter method of `requestURLStr` in `TCWebViewController`. Because there was no such crash in previous app version, we came out an idea: would the property in `TCWebViewController` was implemented in a dynamic way which uses `@dynamic` to tell the compiler not generates getter and setter for the property during compiling time but dynamically created in runtime like **Core Data** framework? Then we decided to going deeply of the idea to see if our guess was correct. During our tracking, we found there was a category `NSObject(MethodSwizzlingCategory)` for `NSObject` in **TencentOpenAPI.framework** which was very suspicious. In this category, there was a method `switchMethodForCodeZipper` whose implementation replaced the `methodSignatureForSelector` and `forwardInvocation` methods of `QQmethodSignatureForSelector` and `QQforwardInvocation` methods.
 
+静的解析の結果、`TCWebViewController` には `requestURLStr` の Setter と Getter メソッドがありませんでした。それは、`TCWebViewController`のプロパティが、**Core Data**フレームワークのように、実行時に動的に生成されるのではなく、`@dynamic`を使ってコンパイラにプロパティのゲッターとセッターを生成するように指示する動的な方法で実装されているのではないか、というものでした。そこで、私たちの推測が正しいかどうかを確かめるために、このアイデアを深く追求することにしました。追跡中に、**TencentOpenAPI.framework**内の`NSObject`に対して、`NSObject(MethodSwizzlingCategory)`というカテゴリーがあり、これが非常に怪しいことがわかりました。このカテゴリの中には、`switchMethodForCodeZipper`というメソッドがあり、その実装は`QQmethodSignatureForSelector`と`QQforwardInvocation`の`methodSignatureForSelector`と`QQforwardInvocation`のメソッドを置き換えていました。
 
 ```objective-c
 void +[NSObject switchMethodForCodeZipper](void * self, void * _cmd) {
@@ -589,88 +598,83 @@ void * -[NSObject QQmethodSignatureForSelector:](void * self, void * _cmd, void 
     return rax;
 }
 ```
-But why the setter cannot recognized in `TCWebViewController` class? Is it because the `QQMethodSignatureForSelector` method was covered during our development of this version? However we couldn't find a clue even we went through everywhere in the code.
-That was very disappointing. So far the static analysis is done. Next step is using LLDB to dynamically debug the Tencent SDK to find out which path broke the creation of Getter and Setter in message forwarding process.
 
-> If we try to set breakpoint on `setRequestURLStr` through LLDB command, we will find that we cannot make it. The reason is because the setter is not available during compiling time. This can also verify our original guess.
+しかし、なぜ`TCWebViewController`クラスではセッターが認識できないのか？このバージョンの開発中に `QQMethodSignatureForSelector` メソッドがカバーされたからでしょうか？しかし、コードの隅々まで調べても手がかりは見つかりませんでした。
+非常に残念でした。ここまでで静的解析は終わりました。次のステップは、LLDBを使ってTencent SDKを動的にデバッグし、メッセージフォワーディングプロセスでどのパスがゲッターとセッターの生成を壊したかを調べます。
 
-According to the crash stack trace, we can conclude `setRequestURLStr` is called in ` -[TCWebViewKit open]` method, which means the crash happens during Tencent SDK checking if the QQ app is installed and opening the authentication web page progress.
+> LLDBコマンドで`setRequestURLStr`にブレークポイントを設定しようとすると、設定できないことがわかります。その理由は、コンパイル時にセッターが利用できないからです。これは、私たちの最初の推測を検証することができます。
 
-Then we use below LLDB command to set breakpoint on this method:
+クラッシュのスタックトレースによると、`setRequestURLStr`は` -[TCWebViewKit open]`メソッドの中で呼び出されていると結論付けられます。つまり、Tencent SDKがQQアプリがインストールされているかどうかをチェックし、認証Webページのプログレスを開いている間にクラッシュが起こるということです。
+
+そこで、以下のLLDBコマンドを使用して、このメソッドにブレークポイントを設定します。
 
 ```
 br s -n "-[TCWebViewKit open]"
 ```
 
-> `br s` is the abbreviation for `breakpoint set`, `-n` represents set the breakpoint according to the method name after it, which has the same behavior with symbolic breakpoint, `br s -F` can also set the breakpoint.  `b -[TCWebViewKit open]` also works here, but `b` here is the abbreviation of `_regexp-break`, which uses  regular expression to set the breakpoint. In the end, we can also set breakpoint on memory address like `br s -a 0x000000010940b24e`, which can help to debug block if the address of the block is available.
+> `br s` は `breakpoint set` の略で、`-n` はその後ろのメソッド名に応じてブレークポイントを設定することを表し、シンボリックブレークポイントと同じ動作をします。 b -[TCWebViewKit open]` もここでは動作しますが、ここでの `b` は `_regexp-break` の略で、正規表現を使ってブレークポイントを設定します。最後に、`br s -a 0x000000010940b24e`のように、メモリアドレスにブレークポイントを設定することもできます。これは、ブロックのアドレスが利用可能であれば、ブロックのデバッグに役立ちます。
 
-By now the breakpoint is set successfully.
-
+これで、ブレークポイントの設定が完了しました。
 
 ```
 Breakpoint 34: where = AADebug`-[TCWebViewKit open], address = 0x0000000103157f7d
 ```
 
-When app is going to launch the web authentication page, the project is stopped on this breakpoint. Refer to below:
+アプリがWeb認証ページを起動しようとすると、このブレークポイントでプロジェクトが停止します。以下を参照してください。
 
 <p align="center">
 
-<img src="Images/lldb_webviewkit_open.png" />
+<img src="Images/lldb_webviewkit_open.png" />。
 
 </p>
 
-> This screenshot is captured when app running on simulator, so the assembly code is based on X64. If you are using the iPhone device, the assembly code should be ARM. But the analysis method is the same for them, please notice it.
+iPhoneをお使いの場合、アセンブリコードはARMになります。しかし、解析方法は同じですので、ご注意ください。
 
-Set a breakpoint on Line 96, this assembly code is the `setRequestURLStr` method invocation, then print the content of `rbx` register, then we can observe that the `TCWebViewController` instance is saved in this register.
-
-<p align="center">
-
-<img src="Images/lldb_webviewkit_open_1.png" />
-
-</p>
+96行目にブレークポイントを設定します。このアセンブリコードは、`setRequestURLStr`メソッドの呼び出しであり、`rbx`レジスタの内容を表示すると、`TCWebViewController`インスタンスがこのレジスタに保存されていることがわかります。
 
 #### methodSignatureForSelector
 
-Next we can use LLDB to set breakpoint for `QQmethodSignatureForSelector` method:
+次に LLDB を使って、`QQmethodSignatureForSelector` メソッドにブレークポイントを設定します。
+
 ```
 br s -n "-[NSObject QQmethodSignatureForSelector:]"
 
 ```
 
-Enter `c` in LLDB to let the breakpoint continue, then breakpoint will stop inside `QQmethodSignatureForSelector` method, which can prove our previous guess about `QQmethodSignatureForSelector` method conflicting with our code is invalid.
+LLDBに`c`を入力してブレークポイントを継続させると、`QQmethodSignatureForSelector`メソッドの中でブレークポイントが停止しますので、`QQmethodSignatureForSelector`メソッドが私たちのコードと衝突するという前の推測が無効であることが証明されます。
 <p align="center">
 
-<img src="Images/lldb_method_signature.png" />
+<img src="Images/lldb_method_signature.png" />。
 
 </p>
 
-Set a breakpoint at the end of `QQmethodSignatureForSelector` method, that is the `retq` command on Line 31. Then print the memory address of register `rax`, refer to below screenshot:
+QQmethodSignatureForSelector`メソッドの最後、つまり31行目の`retq`コマンドにブレークポイントを設定します。次に、レジスタ `rax` のメモリアドレスを表示します。
 
 <p align="center">
 
-<img src="Images/lldb_method_signature_1.png" />
+<img src="Images/lldb_method_signature_1.png" />。
 
 </p>
 
-By printing the memory address `0x00007fdb36d38df0` of register `rax`, `NSMethodSignature` object is returned. According to the design convention on X86 assembly language, the return value is saved in register `rax`. Apparently the `QQmethodSignatureForSelector` method is invoked and return the correct value, which means we need to keep tracking the issue.
+レジスタ `rax` のメモリアドレス `0x00007fdb36d38df0` をプリントすると、`NSMethodSignature` オブジェクトが返されます。X86アセンブリ言語の設計上の慣習では、戻り値はレジスタ `rax` に保存されます。どうやら `QQmethodSignatureForSelector` メソッドが呼び出されて正しい値を返しているようなので、この問題の追跡を続ける必要があります。
 
 #### forwardInvocation
 
-Set breakpoint on `QQforwardInvocation` via LLDB:
+LLDB経由で`QQforwardInvocation`にブレークポイントを設定します。
 
 ```
 br s -n "-[NSObject QQforwardInvocation:]"
 ```
 
-After the breakpoint is set, continue the program execution, the app is crashed. And the `QQforwardInvocation` method hasn't been called yet. With this, we can conclude the `QQforwardInvocation` method is conflicted by our code.
+ブレークポイントを設定した後、プログラムの実行を続けるとアプリがクラッシュしてしまいます。そして、`QQforwardInvocation`メソッドはまだ呼ばれていません。これで、`QQforwardInvocation` メソッドが私たちのコードによってコンフリクトしていると結論付けられます。
 
 <p align="center">
 
-<img src="Images/lldb_method_signature_2.png" />
+<img src="Images/lldb_method_signature_2.png" />。
 
 </p>
 
-`___forwarding___` function contains the whole implementation of message forwarding mechanism, the decompilation code is selected from [Objective-C 消息发送与转发机制原理](http://yulingtianxia.com/blog/2016/06/15/Objective-C-Message-Sending-and-Forwarding/). In this article, there is a judgement which should be incorrect between `forwarding` and `receiver` when calling `forwardingTargetForSelector` method. Here it should be a judgement between `forwardingTarget` and `receiver`. Refer to code below:
+`__forwarding___` 関数は、メッセージ転送機構の実装全体を含んでおり、分解コードは[Objective-C 消息发送与转发机制原理](http://yulingtianxia.com/blog/2016/06/15/Objective-C-Message-Sending-and-Forwarding/)から選択しています。この記事では、`forwardingTargetForSelector`メソッドを呼び出す際に、`forwarding`と`receiver`の間で誤っていると思われる判定があります。ここでは、`forwardingTarget`と`receiver`の間で判断する必要があります。以下のコードを参照してください。
 
 ```
 int __forwarding__(void *frameStackPointer, int isStret) {
@@ -759,20 +763,21 @@ int __forwarding__(void *frameStackPointer, int isStret) {
   kill(getpid(), 9);
 }
 ```
-Basically, we can have a clear understanding through reading the decompilation code: 
- First invoke `forwardingTargetForSelector` method during the message forwarding process to get the replacement receiver, which is also called Fast Forwarding phase. If the `forwardingTarget` returns nil or return the same receiver, the message forwarding turns into Regular Forwarding phase. Basically, invoking `methodSignatureForSelector` method to get the method signature, then using it with `frameStackPointer` to instantiate `invocation` object. Then call `forwardInvocation:` method of the `receiver`, and pass the previous `invocation`object as an argument. In the end if `methodSignatureForSelector` method is not implemented and the `selector` is already registered in runtime system, `doesNotRecognizeSelector:` will be invoked to throw an error.
 
-Scrutinizing the `___forwarding___` from the crash stack trace, we can notice that it's called as the second path among the whole message forwarding path, which means `NSInvocation` object is invoked when `forwardInvocation` is called.
+基本的には、分解コードを読むことで明確に理解することができます。
+ まず、メッセージの転送処理中に `forwardingTargetForSelector` メソッドを呼び出して代替レシーバーを取得します。これは高速転送フェーズとも呼ばれます。forwardingTarget`がnilを返すか、同じレシーバーを返す場合、メッセージの転送は通常の転送フェーズに変わります。基本的には、`methodSignatureForSelector`メソッドを呼び出してメソッドのシグネチャを取得し、それを`frameStackPointer`とともに使用して`invocation`オブジェクトをインスタンス化します。次に `receiver` の `forwardInvocation:` メソッドを呼び出し、引数として先ほどの `invocation` オブジェクトを渡します。結局、`methodSignatureForSelector`メソッドが実装されておらず、`selector`が既にランタイムシステムに登録されている場合は、`doesNotRecognizeSelector:`が呼び出されてエラーになります。
 
-> You can also execute the command step by step after the breakpoint to observe the execution path of the assembly code, the same result should be observed.
+クラッシュのスタックトレースから``forwarding___`を精査すると、メッセージ転送パス全体の中で2番目のパスとして呼び出されていることがわかります。つまり、`forwardInvocation`が呼び出されたときに、`NSInvocation`オブジェクトが呼び出されていることになります。
+
+> また、ブレークポイントの後、ステップごとにコマンドを実行して、アセンブリコードの実行経路を観察しても、同じ結果が得られるはずです。
 
 <p align="center">
 
-<img src="Images/___forwarding___.png" />
+<img src="Images/___forwarding___.png" />。
 
 </p>
 
-And which method is executed when `forwardInvocation` is called? From the stack trace, we can see a method named `__ASPECTS_ARE_BEING_CALLED__` is executed. Look over this method of the whole project, we finally find out `forwardInvocation` is hooked by `Aspects` framework.
+そして、`forwardInvocation`が呼ばれたときに実行されるのはどのメソッドでしょうか。スタックトレースを見ると、`__ASPECTS_ARE_BEING_CALLED__`という名前のメソッドが実行されていることがわかります。プロジェクト全体のこのメソッドを見渡してみると、最終的には `forwardInvocation` が `Aspects` フレームワークによってフックされていることがわかります。
 
 ```objective-c
 static void aspect_swizzleForwardInvocation(Class klass) {
@@ -840,24 +845,24 @@ static void __ASPECTS_ARE_BEING_CALLED__(__unsafe_unretained NSObject *self, SEL
 }
 ```
 
-Since `TCWebViewController` is a private class of Tencent SDK, it's unlikely been hooked by other class directly. But it's possible its superclass is hooked which can also affect this class. With this conjecture, we kept digging. Finially, the answer surfaced! By removing or commenting the code that hooking `UIViewController`, the app didn't crash when login via QQ. So far, we were definitely sure the crash was involved by `Aspects` framework.
+TCWebViewController`はTencent SDKのプライベートクラスなので、他のクラスから直接フックされることはないだろう。しかし、そのスーパークラスがフックされ、このクラスにも影響を与える可能性がある。この推測のもと、私たちは調査を続けました。そして、ようやく答えが見えてきました。UIViewController "をフックしているコードを削除するかコメントすることで、QQ経由でログインしてもアプリがクラッシュしなくなったのです。これまでのところ、クラッシュの原因が `Aspects` フレームワークにあることは間違いありませんでした。
 
 <p align="center">
 
-<img src="Images/answer.png" />
+<img src="Images/answer.png" />。
 
 </p>
 
-`doesNotRecognizeSelector:` error is thrown by `__ASPECTS_ARE_BEING_CALLED__` method which is used to replace the IMP of `forwardInvocation:` method by **Aspects**. The implementation of `__ASPECTS_ARE_BEING_CALLED__` method has the corresponding time slice for before, instead and after the hooking in `Aspect`. Among above code, `aliasSelector` is a SEL which is handled by **Aspects**, like `aspects__setRequestURLStr:`.
+doesNotRecognizeSelector:` エラーは、`forwardInvocation:` メソッドの IMP を **Aspects** で置き換えるために使用される `__ASPECTS_ARE_BEING_CALLED__` メソッドによってスローされます。ASPECTS_ARE_BEING_CALLED__`メソッドの実装では、`Aspect`にフックする前、代わりに、後に対応するタイムスライスを持っています。上記のコードのうち、`aliasSelector`は、`aspects__setRequestURLStr:`のように、**Aspects**で処理されるSELです。
 
-In Instead hooks part, invocation.target will be checked if it can respond to aliasSelector. If subclass cannot respond, the superclass will be checked,  the superclass's superclass, until root class. Since the aliasSelector cannot be responded, 
-respondsToAlias is false. Then originalSelector is assigned to be a selector of invocation. Next objc_msgSend invokes the invocation to call the original SEL. Since TCWebViewController cannot respond the `originalSelector:setRequestURLStr:` method, it finally runs to **ASPECTS_ARE_BEING_CALLED** method of Aspects and doesNotRecognizeSelector: method is threw accordingly, which is the root cause of the crash we talked about in the beginning of this article.
+Instead hooksの部分では、invocation.targetがaliasSelectorに応答できるかどうかがチェックされます。サブクラスが応答できない場合は、スーパークラスがチェックされ、スーパークラスのスーパークラス、そしてルートクラスまでチェックされます。aliasSelector が応答できないため、respondsToAlias は false です。
+respondsToAliasはfalseとなります。そして，originalSelectorが呼び出しのセレクタとして割り当てられます．次に objc_msgSend は，元の SEL を呼び出すために invocation を起動します．TCWebViewControllerは、`originalSelector:setRequestURLStr:`メソッドに応答できないため、最終的にAspectsの**ASPECTS_ARE_BEING_CALLED**メソッドを実行し、それに応じてdoesNotRecognizeSelector:メソッドがスローされ、これが冒頭で説明したクラッシュの根本的な原因となります。
 
-Some careful reader might already realize the crash could be involved with Aspects, since seeing line **__ASPECTS_ARE_BEING_CALLED__** at line 3 of the crash stack trace. The reason I still listed all the attempts here is that I hope you can learn how to locate a problem from a third-part framework without source code through static analysis and dynamic analysis. Hope the tricks and technology mentioned in this article can be helpful for you.
+注意深い読者の中には、クラッシュのスタックトレースの3行目にある**__ASPECTS_ARE_BEING_CALLED__**という行を見て、クラッシュがAspectsに関係している可能性があることに気付いた方もいるかもしれません。ここですべての試みをリストアップした理由は、ソースコードのないサードパートのフレームワークから、静的解析と動的解析によって問題を特定する方法を学んでいただきたいからです。この記事で紹介したトリックや技術があなたのお役に立てることを願っています。
 
 #### Solution
 
-There are two available ways to fix the crash. One is hooking the method of **Aspects** which is less invasive, for example Method Swizzling, then the setter creation during the message forwarding process for **TencentOpenAPI** would not be interrupted. Another is replace `forwardInvocation:` with ours implementation, if both `aliasSelector` and ``originalSelector cannot response to the message forwarding, we can forward the message forwarding path back into the original path. Refer to the code below:
+このクラッシュを修正する方法は2つあります。1つは、**Aspects**のメソッドをフックすることで、例えばMethod Swizzlingのような侵襲性の低い方法で、**TencentOpenAPI**のメッセージフォワーディング処理中のセッター作成が中断されないようにします。もう一つは、`forwardInvocation:`を我々の実装に置き換えることで、`aliasSelector`と`originalSelector`の両方がメッセージ転送に応答できない場合、メッセージ転送のパスを元のパスに戻すことができます。以下のコードを参照してください。
 
 ```objective-c
      if (!respondsToAlias) {
@@ -867,18 +872,17 @@ There are two available ways to fix the crash. One is hooking the method of **As
       }
 ```
 
-In fact, **Aspects** has conflicts with **JSPatch**. Since the implementation of these two SDK are similar too, `doesNotRecognizeSelector:` happens too when they are used together. Please Refer to [微信读书的文章](http://wereadteam.github.io/2016/06/30/Aspects/).
-
+実は、**Aspects** は **JSPatch** とコンフリクトしています。この2つのSDKの実装も似ているので、これらを一緒に使うと、`doesNotRecognizeSelector:`も起こります。微信读书的文章](http://wereadteam.github.io/2016/06/30/Aspects/)をご参照ください。
 
 #### A perfect crush between Aspects and TencentOpenAPI
 
-The root cause of this crash is the conflict between **Aspects** and **TencentOpenAPI** frameworks. The life cycle method of `UIViewController` class is hooked by Aspects, and the `forwardInvocation` method is replaced with the Aspects's implementation. Also, because of the superclass of `TCWebViewController` is `UIViewController` class. As a result, `QQforwardInvocation` method of `TCWebViewController` class is hooked by Aspects too. That leads to the message forwarding process failed, thus, the creation of getter and setter fails too.
+このクラッシュの根本的な原因は、**Aspects**と**TencentOpenAPI**のフレームワーク間の衝突である。UIViewController`クラスのライフサイクルメソッドはAspectsによってフックされており、`forwardInvocation`メソッドはAspectsの実装に置き換えられている。また、`TCWebViewController`のスーパークラスが`UIViewController`クラスであることから、`QQforwardInvocation`メソッドはAspectsの実装に置き換えられる。その結果、`TCWebViewController`クラスの`QQforwardInvocation`メソッドもAspectsにフックされることになる。その結果、メッセージ転送処理が失敗し、ゲッターやセッターの作成にも失敗してしまうのです。
 
-This case tells us, we should not only learn how to use a third-part framework, but also need to look into the mechanism of it. Only then, we can easily to locate the problem we meet during our work.
+このケースは、サードパーティ製フレームワークの使い方を学ぶだけでなく、そのメカニズムを調べる必要があることを教えてくれます。そうすれば、作業中に遭遇した問題を簡単に解決することができます。
 
 ## Summary
 
-We introduce different kinds of tips in this article, but we hope you can also master a way of thinking when debugging. Skills are easy to be learned, but the way you think when resolving problem is not easy to be formed. It takes time and practice. Besides kinds of debugging techniques, you also have to have a good sense of problem analysis, then the problem will be handy for you.
+この記事ではさまざまなヒントを紹介していますが、デバッグ時の考え方もぜひマスターしてください。技術は簡単に習得できますが、問題解決のための考え方は簡単には形成できません。時間をかけて練習する必要があります。デバッグのテクニックに加えて、問題分析のセンスも必要です。そうすれば、問題はあなたにとって便利なものになるでしょう。
 
 ## Reference Material
 
@@ -889,7 +893,7 @@ We introduce different kinds of tips in this article, but we hope you can also m
 * 《Computer Systems: A Programmer's Perspective》
 * 《Debug It!: Find, Repair, and Prevent Bugs in Your Code》
 * 《Effective Objective-C 2.0: 52 Specific Ways to Improve Your iOS and OS X Programs》
-* [Objective-C 消息发送与转发机制原理](http://yulingtianxia.com/blog/2016/06/15/Objective-C-Message-Sending-and-Forwarding/)
+* [Principles of Objective-C Message Sending and Forwarding Mechanisms](http://yulingtianxia.com/blog/2016/06/15/Objective-C-Message-Sending-and-Forwarding/)
 
 ## Author
 
